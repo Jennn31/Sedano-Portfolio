@@ -1,0 +1,841 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sedano | Portfolio</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+    <style>
+        /* CSS Variables for the theme */
+        :root {
+            --bg-color: #f8f9fa; /* Very light grey/off-white background */
+            --primary-text-color: #212529; /* Dark grey for main text */
+            --secondary-text-color: #495057; /* Slightly lighter grey for secondary text */
+            --accent-color: #007bff; /* A professional blue for accents */
+            --nav-bg-color: #ffffff; /* Pure white for navigation */
+            --nav-width-lg: 250px;
+            --content-padding: 3rem;
+            --shadow: 0 4px 12px rgba(0, 0, 0, 0.05); /* Softer, subtle shadow */
+            --border-radius: 10px; /* Slightly more rounded corners */
+        }
+
+
+        /* Basic Setup */
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+
+        body {
+            font-family: 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif; /* Modern, clean font stack */
+            background-color: var(--bg-color);
+            color: var(--primary-text-color);
+            line-height: 1.6; /* Slightly increased line height for readability */
+            font-size: 17px;
+        }
+
+
+        /* Main Layout */
+        .site-wrapper {
+            display: flex;
+            flex-direction: column;
+        }
+
+
+        .main-content {
+            padding-left: 0;
+            width: 100%;
+            transition: padding-left 0.5s ease;
+        }
+
+
+        section {
+            padding: var(--content-padding) 2rem;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            /* No border-bottom for a cleaner separation, rely on padding and background */
+        }
+
+
+        h1, h2, h3 {
+            font-weight: 600; /* Slightly less bold for modern feel */
+            color: var(--primary-text-color);
+            margin-bottom: 1rem;
+        }
+
+
+        h1 {
+            font-size: 3.2rem; /* Slightly refined size */
+            color: var(--accent-color);
+            line-height: 1.2;
+            margin-bottom: 0.5rem;
+        }
+
+
+        h2 {
+            font-size: 2.2rem;
+            margin-bottom: 2.5rem; /* More space below headings */
+            position: relative;
+            display: inline-block;
+        }
+
+
+        h2::after {
+            content: '';
+            position: absolute;
+            bottom: -10px;
+            left: 0;
+            width: 80px; /* Shorter, more subtle underline */
+            height: 4px; /* Thicker underline */
+            background: var(--accent-color);
+            border-radius: 2px; /* Rounded ends for the underline */
+        }
+
+
+        p {
+            margin-bottom: 1rem;
+            max-width: 750px; /* Slightly wider text blocks */
+            color: var(--secondary-text-color);
+        }
+
+
+        #about h3 {
+            font-size: 1.5rem;
+            color: var(--primary-text-color); /* Keep it primary text color */
+            font-weight: 600;
+            margin: 2rem 0 0.8rem;
+        }
+
+
+        /* Sidebar Navigation */
+        .sidebar-nav {
+            position: fixed;
+            left: 0;
+            top: 0;
+            width: var(--nav-width-lg);
+            height: 100%;
+            background: var(--nav-bg-color);
+            box-shadow: var(--shadow);
+            transform: translateX(-100%);
+            transition: transform 0.4s ease-in-out;
+            z-index: 2000;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            padding: 2rem 0; /* Add vertical padding */
+        }
+
+
+        .sidebar-nav.active {
+            transform: translateX(0);
+        }
+
+
+        .nav-menu {
+            list-style: none;
+            width: 100%;
+            padding: 0;
+        }
+
+
+        .nav-menu li {
+            margin-bottom: 0.5rem; /* Space between nav items */
+        }
+
+
+        .nav-menu li a {
+            display: block;
+            padding: 1rem 2rem;
+            color: var(--secondary-text-color);
+            text-decoration: none;
+            font-weight: 500; /* Lighter font weight for nav links */
+            text-align: center;
+            transition: color 0.3s, background-color 0.3s, border-left 0.3s;
+            position: relative; /* For the active indicator */
+        }
+
+
+        .nav-menu li a:hover {
+            color: var(--accent-color);
+            background-color: #f0f0f0;
+        }
+
+
+        .nav-menu li a.active {
+            color: var(--accent-color);
+            background-color: #e6f2ff; /* Light accent background for active link */
+            border-left: 5px solid var(--accent-color); /* Stronger active indicator */
+            font-weight: 600; /* Bold active link */
+        }
+
+
+        /* Mobile Menu Toggle Button */
+        .menu-toggle {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            z-index: 2001;
+            background: var(--nav-bg-color);
+            border: none;
+            cursor: pointer;
+            padding: 12px; /* Slightly larger touch target */
+            border-radius: 50%;
+            box-shadow: var(--shadow);
+            display: flex; /* Use flex for centering hamburger */
+            align-items: center;
+            justify-content: center;
+            transition: background-color 0.3s;
+        }
+
+
+        .menu-toggle:hover {
+            background-color: #f0f0f0;
+        }
+
+
+        .menu-toggle .hamburger,
+        .menu-toggle .hamburger::before,
+        .menu-toggle .hamburger::after {
+            content: '';
+            display: block;
+            background: var(--primary-text-color);
+            height: 2px; /* Thinner hamburger lines */
+            width: 25px;
+            transition: transform 0.3s ease-in-out, top 0.3s ease-in-out, opacity 0.3s;
+            position: relative;
+        }
+
+
+        .menu-toggle .hamburger::before {
+            top: -7px; /* Closer lines */
+        }
+
+
+        .menu-toggle .hamburger::after {
+            top: 7px; /* Closer lines */
+        }
+
+
+        .sidebar-nav.active + .menu-toggle .hamburger {
+            background: transparent;
+        }
+
+
+        .sidebar-nav.active + .menu-toggle .hamburger::before {
+            transform: translateY(7px) rotate(45deg); /* Center and rotate */
+        }
+        .sidebar-nav.active + .menu-toggle .hamburger::after {
+            transform: translateY(-7px) rotate(-45deg); /* Center and rotate */
+        }
+
+
+        /* Home Section */
+        #home .home-container {
+            display: flex;
+            flex-direction: column-reverse;
+            align-items: center;
+            text-align: center;
+            width: 100%;
+            gap: 2.5rem; /* Increased gap */
+            animation: fadeIn 1s ease-in-out;
+            padding-top: 5rem; /* Push content down slightly for mobile */
+        }
+
+
+        .home-image {
+            margin-bottom: 1.5rem;
+        }
+
+
+        .home-image img {
+            width: 180px; /* Slightly larger image */
+            height: 180px;
+            object-fit: cover;
+            border-radius: 50%;
+            border: 8px solid var(--nav-bg-color); /* Thicker border */
+            box-shadow: var(--shadow);
+        }
+
+
+        .home-text {
+            max-width: 700px;
+        }
+
+
+        .cta-button {
+            display: inline-block;
+            background: var(--accent-color);
+            color: #fff;
+            padding: 14px 30px; /* Larger button */
+            border-radius: 30px; /* More rounded */
+            text-decoration: none;
+            margin-top: 1.5rem;
+            font-size: 1.1rem; /* Slightly larger font */
+            font-weight: 500;
+            transition: background-color 0.3s ease, transform 0.2s ease, box-shadow 0.3s ease;
+            box-shadow: 0 4px 8px rgba(0, 123, 255, 0.2); /* Shadow for button */
+        }
+
+
+        .cta-button:hover {
+            background-color: #0056b3; /* Darker blue on hover */
+            transform: translateY(-2px); /* Subtle lift */
+            box-shadow: 0 6px 12px rgba(0, 123, 255, 0.3); /* Stronger shadow on hover */
+        }
+
+
+        /* About Section */
+        #about .section-content {
+            margin-bottom: 2.5rem;
+        }
+
+
+        #about ul {
+            list-style: none;
+            padding: 0;
+        }
+
+
+        #about ul li {
+            margin-bottom: 0.8rem; /* More space between list items */
+            color: var(--secondary-text-color);
+        }
+
+
+        #about ul li strong {
+            color: var(--primary-text-color); /* Make bold text stand out more */
+            font-weight: 600;
+        }
+
+
+        /* Projects Grid */
+        #projects .project-grid {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 2.5rem; /* Increased gap between project items */
+            margin-top: 2.5rem;
+        }
+
+
+        .project-item {
+            background: var(--nav-bg-color);
+            border-radius: var(--border-radius);
+            box-shadow: var(--shadow);
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            height: 100%;
+        }
+
+
+        .project-item:hover {
+            transform: translateY(-5px); /* Lift effect */
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1); /* More pronounced shadow */
+        }
+
+
+        .project-item img {
+            width: 100%;
+            height: 250px; /* Slightly taller images */
+            object-fit: cover;
+            border-top-left-radius: var(--border-radius);
+            border-top-right-radius: var(--border-radius);
+        }
+
+
+        .project-item .project-content {
+            padding: 2rem; /* More padding inside content */
+            flex-grow: 1;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+
+
+        .project-item h3 {
+            font-size: 1.6rem;
+            margin-bottom: 0.8rem;
+            color: var(--accent-color); /* Project titles use accent color */
+        }
+
+
+        .project-item p {
+            font-size: 1rem;
+            line-height: 1.5;
+            margin-bottom: 1.5rem;
+            color: var(--secondary-text-color);
+        }
+
+
+        /* Project Action Buttons */
+        .project-actions {
+            margin-top: auto; /* Push buttons to the bottom */
+            display: flex;
+            gap: 15px; /* More space between buttons */
+            flex-wrap: wrap;
+        }
+
+
+        .project-button {
+            display: inline-block;
+            background: var(--accent-color);
+            color: #fff;
+            padding: 10px 20px;
+            border-radius: 25px; /* More rounded buttons */
+            text-decoration: none;
+            font-size: 0.95rem;
+            font-weight: 500;
+            transition: background-color 0.3s ease, transform 0.2s ease;
+        }
+
+
+        .project-button:hover {
+            background-color: #0056b3;
+            transform: translateY(-2px);
+        }
+
+
+        /* Footer */
+        .site-footer {
+            text-align: center;
+            padding: 2.5rem; /* More vertical padding */
+            background: #e9ecef; /* Lighter background for footer */
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-end;
+            align-items: center;
+            min-height: 120px; /* Slightly taller footer */
+            border-top: 1px solid #dee2e6; /* Subtle top border */
+            color: var(--secondary-text-color);
+        }
+
+
+        .social-links {
+            margin-bottom: 1.2rem;
+            display: flex;
+            justify-content: center;
+            width: 100%;
+            flex-grow: 1;
+            align-items: flex-end;
+        }
+
+
+        .site-footer p {
+            margin-top: 0;
+            margin-bottom: 0;
+            width: 100%;
+            text-align: center;
+            font-size: 0.9rem;
+            color: #6c757d; /* Slightly muted copyright text */
+        }
+
+
+        .social-links a {
+            color: var(--secondary-text-color);
+            margin: 0 12px; /* More space between icons */
+            font-size: 1.8rem; /* Larger icons */
+            text-decoration: none;
+            transition: color 0.3s, transform 0.2s;
+        }
+
+
+        .social-links a:hover {
+            color: var(--accent-color);
+            transform: translateY(-3px); /* Lift icons on hover */
+        }
+
+
+        /* Modal */
+        .modal {
+            display: none;
+            position: fixed;
+            inset: 0;
+            background: rgba(0, 0, 0, 0.5); /* Slightly darker overlay for focus */
+            justify-content: center;
+            align-items: center;
+            z-index: 999;
+            backdrop-filter: blur(5px); /* Subtle blur effect */
+        }
+
+
+        .modal-content {
+            position: relative;
+            background: white; /* White background for modal content */
+            padding: 20px;
+            border-radius: var(--border-radius);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+            max-width: 95vw; /* Allow more width */
+            max-height: 95vh; /* Allow more height */
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+
+        .modal-close-button {
+            position: absolute;
+            top: -15px; /* Position closer to the top-right corner of the modal */
+            right: -15px;
+            background: #dc3545; /* Red close button */
+            color: white;
+            border: none;
+            border-radius: 50%;
+            width: 35px; /* Larger close button */
+            height: 35px;
+            font-size: 1.5rem; /* Larger 'x' */
+            cursor: pointer;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+            transition: background-color 0.2s ease, transform 0.2s ease;
+        }
+
+
+        .modal-close-button:hover {
+            background-color: #c82333;
+            transform: scale(1.1);
+        }
+
+
+        .modal-image {
+            max-width: 100%;
+            max-height: 80vh; /* Adjust as needed */
+            display: block; /* Remove extra space below image */
+            border-radius: 8px; /* Match modal content border-radius */
+        }
+
+
+        /* Keyframe Animations */
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+
+        /* Large Screen Adjustments */
+        @media (min-width: 992px) {
+            .site-wrapper {
+                flex-direction: row;
+            }
+
+
+            .sidebar-nav {
+                transform: translateX(0);
+                box-shadow: var(--shadow); /* Keep shadow for desktop sidebar */
+                border-right: 1px solid #e0e0e0; /* Lighter border */
+            }
+
+
+            .menu-toggle {
+                display: none;
+            }
+
+
+            .main-content {
+                padding-left: var(--nav-width-lg);
+            }
+
+
+            section {
+                padding: var(--content-padding);
+            }
+
+
+            #home .home-container {
+                flex-direction: row;
+                text-align: left;
+                align-items: center;
+                justify-content: center; /* Center horizontally in desktop */
+                gap: 5rem;
+                padding-top: 0; /* No extra padding needed */
+            }
+
+
+            .home-text {
+                max-width: 600px;
+                line-height: 1.6;
+                white-space: normal;
+            }
+
+
+            .home-image {
+                flex: none; /* Do not let image flex grow */
+                display: flex;
+                justify-content: center; /* Center image within its container */
+                align-items: center;
+                margin-bottom: 0;
+            }
+
+
+            .home-image img {
+                width: 280px; /* Larger image for desktop */
+                height: 280px;
+                border: 10px solid var(--nav-bg-color); /* Thicker border */
+            }
+
+
+            #projects .project-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+
+
+        @media (min-width: 1200px) {
+            #projects .project-grid {
+                grid-template-columns: repeat(3, 1fr); /* Three columns on very large screens */
+            }
+        }
+    </style>
+</head>
+<body>
+
+
+    <div class="site-wrapper">
+        <nav class="sidebar-nav" id="sidebar">
+            <ul class="nav-menu">
+                <li><a href="#home" class="nav-link active">Home</a></li>
+                <li><a href="#about" class="nav-link">About</a></li>
+                <li><a href="#projects" class="nav-link">Projects</a></li>
+                <li><a href="#contact" class="nav-link">Contact</a></li>
+            </ul>
+        </nav>
+
+
+        <button class="menu-toggle" id="menu-toggle" aria-label="Open navigation menu">
+            <div class="hamburger"></div>
+        </button>
+
+
+        <main class="main-content">
+            <section id="home">
+                <div class="home-container">
+                    <div class="home-text">
+                        <p>HELLO, MY NAME IS</p>
+                        <h1>Cristine Jen R. Sedano</h1>
+                        <p>Welcome to my portfolio! I am a dedicated Information Technology student with a strong interest in programming, web development, and network systems. I am committed to continuously developing my technical skills and gaining practical experience through academic projects and collaborative work. This portfolio highlights my learning journey, projects, and the knowledge I have acquired in the field of IT.</p>
+                        <a href="#projects" class="cta-button">View My Work</a>
+                    </div>
+                    <div class="home-image">
+                        <img src="https://scontent.fceb1-1.fna.fbcdn.net/v/t51.75761-15/491463051_18167791984330785_9109614313454066947_n.webp?stp=dst-jpg_tt6&_nc_cat=105&ccb=1-7&_nc_sid=127cfc&_nc_eui2=AeGowW8ojHrZ5lgtYNOZnnfdLWXYHzbQ5gUtZdgfNtDmBWgzbPFYl7L8E2M9OAzdy5huSJKV1X2XduzcYET0qCGS&_nc_ohc=BYdo4DLGZMgQ7kNvwG4rbPX&_nc_oc=Adm3hdWEEfw8Ytyfuj4WljI9N2Z-WsQn7A3UQgU9X0MK7jDkx6bpNSp4iXTtzhNdoT4&_nc_zt=23&_nc_ht=scontent.fceb1-1.fna&_nc_gid=QaqsnvtGozAu5ycmJRWiIw&oh=00_AfPx6dLcc96zVHDqCRUq8YDv-xjfHaJxmF6F-DSdlxiuIA&oe=68589A66" alt="Profile Picture of Cristine Jen R. Sedano">
+                    </div>
+                </div>
+            </section>
+
+
+            <section id="about">
+                <div class="about-content">
+                    <h2>About Me</h2>
+
+
+                    <h3>Education</h3>
+                    <div class="section-content">
+                        <ul>
+                            <li>
+                                <strong>College</strong><br>
+                                Asian College - Dumaguete Campus<br>
+                                Dr. V Locsin Street, Taclobo, Dumaguete City<br>
+                                <em>Current</em>
+                            </li>
+                            <li>
+                                <strong>Senior High School</strong><br>
+                                Negros Oriental High School<br>
+                                Kagawasan Avenue, Daro, Dumaguete City<br>
+                                <em>2023</em>
+                            </li>
+                            <li>
+                                <strong>Elementary</strong><br>
+                                Magsaysay Memorial Elementary School<br>
+                                Pulantubig, Dumaguete City<br>
+                                <em>2015</em>
+                            </li>
+                        </ul>
+                    </div>
+
+
+                    <h3>Work Experience / Training</h3>
+                    <div class="section-content">
+                        <ul>
+                            <li><strong>OJT at Philippine Contact Center Incorporated (PCCI)</strong><br> — Learned how contact centers work and practiced real tasks.</li>
+                            <li><strong>Training at Professional Career Online Institute</strong><br> — Completed online training focused on career skills.</li>
+                        </ul>
+                    </div>
+
+
+                    <h3>Skills</h3>
+                    <div class="section-content">
+                        <ul>
+                            <li><strong>Programming: </strong> JavaScript and C++</li>
+                            <li><strong>Prototyping: </strong> Figma</li>
+                            <li><strong>Graphic Editing: </strong> Photopea</li>
+                            <li><strong>Arduino Uno: </strong> Tinkercad</li>
+                        </ul>
+                    </div>
+                </div>
+            </section>
+
+
+            <section id="projects">
+                <h2>Projects</h2>
+                <div class="project-grid">
+
+
+                    <div class="project-item">
+                        <div class="project-content">
+                            <h3>Music App UI (Figma)</h3>
+                            <p>I designed a simple music app using Figma. It shows the music list, album art, and player screen. It helps users easily play songs.</p>
+                            <div class="project-actions">
+                                <a href="javascript:void(0);" class="project-button" onclick="showModal('images/figma.PNG')">View Project</a>
+                            </div>
+                        </div>
+                    </div>
+
+
+                    <div class="project-item">
+                        <div class="project-content">
+                            <h3>Eco Poster Design (Photopea)</h3>
+                            <p>I made an environmental poster using Photopea. The design teaches people to reuse cups and help the Earth.</p>
+                            <div class="project-actions">
+                                <a href="javascript:void(0);" class="project-button" onclick="showModal('images/photopea.PNG')">View Project</a>
+                            </div>
+                        </div>
+                    </div>
+
+
+                    <div class="project-item">
+                        <div class="project-content">
+                            <h3>Arduino Sensor Setup (Tinkercad)</h3>
+                            <p>I built a simple sensor project in Tinkercad. It uses lights and motion sensors to show how devices work together.</p>
+                            <div class="project-actions">
+                                <a href="javascript:void(0);" class="project-button" onclick="showModal('images/tinkercad.PNG')">View Project</a>
+                            </div>
+                        </div>
+                    </div>
+
+
+                </div>
+            </section>
+
+
+            <section id="contact">
+                <h2>Contact</h2>
+                <p>I am currently open to freelance opportunities and professional collaborations. If you have a project in mind or would like to connect, please feel free to reach out via email or through any of my social media platforms below.</p>
+                <a href="mailto:sedanocristinejen@gmail.com" class="cta-button">
+                    <i class="fas fa-envelope"></i> Send an Email
+                </a>
+
+
+                <footer class="site-footer">
+                    <div class="social-links">
+                        <a href="https://www.facebook.com/cristinejen.ropasedano" aria-label="Facebook">
+                            <i class="fab fa-facebook"></i>
+                        </a>
+                        <a href="https://github.com/" aria-label="GitHub">
+                            <i class="fab fa-github"></i>
+                        </a>
+                        <a href="https://www.linkedin.com/" aria-label="LinkedIn">
+                            <i class="fab fa-linkedin"></i>
+                        </a>
+                    </div>
+                    <p>&copy; 2025 Cristine Jen. All rights reserved.</p>
+                </footer>
+            </section>
+        </main>
+    </div>
+
+
+    <div id="modal" class="modal">
+        <div class="modal-content">
+            <button onclick="hideModal()" class="modal-close-button">×</button>
+            <img id="modal-img" src="" class="modal-image" alt="Project Image">
+        </div>
+    </div>
+
+
+    <script>
+        // Get references to DOM elements
+        const modal = document.getElementById('modal');
+        const modalImg = document.getElementById('modal-img');
+        const sidebar = document.getElementById('sidebar');
+        const menuToggle = document.getElementById('menu-toggle');
+        const navLinks = document.querySelectorAll('.nav-link');
+        const sections = document.querySelectorAll('section');
+
+
+        // Show modal function
+        function showModal(src) {
+            modalImg.src = src;
+            modal.style.display = 'flex';
+        }
+
+
+        // Hide modal function
+        function hideModal() {
+            modal.style.display = 'none';
+        }
+
+
+        // Toggle sidebar for mobile
+        menuToggle.addEventListener('click', () => sidebar.classList.toggle('active'));
+
+
+        // Close sidebar on navigation link click (mobile only)
+        navLinks.forEach(link => {
+            link.addEventListener('click', () => {
+                if (window.innerWidth < 992) sidebar.classList.remove('active');
+            });
+        });
+
+
+        // Highlight active navigation link based on scroll position
+        const highlightNavLink = () => {
+            let currentSection = '';
+
+
+            sections.forEach(section => {
+                const sectionTop = section.offsetTop;
+                const sectionHeight = section.clientHeight;
+                // Adjust this value to control when the active link changes
+                // A smaller number means it changes sooner as you scroll into the section
+                const offset = sectionHeight * 0.3;
+                if (pageYOffset >= sectionTop - offset) {
+                    currentSection = section.getAttribute('id');
+                }
+            });
+
+
+            navLinks.forEach(link => {
+                link.classList.remove('active');
+                if (link.getAttribute('href').includes(currentSection)) {
+                    link.classList.add('active');
+                }
+            });
+        };
+
+
+        // Event listeners for highlighting nav link
+        window.addEventListener('scroll', highlightNavLink);
+        document.addEventListener('DOMContentLoaded', highlightNavLink); // Call on load to set initial active link
+
+
+        // Optional: Close modal when clicking outside the image
+        modal.addEventListener('click', (e) => {
+            if (e.target === modal) {
+                hideModal();
+            }
+        });
+    </script>
+</body>
+</html>
+
